@@ -1,6 +1,6 @@
 
-#from api import app, log
 import configparser
+import json
 import logging as log
 
 from flask_restful import Resource
@@ -52,7 +52,11 @@ class VRClassifPlacesAccuracy(Resource):
         try:
 
             accuracy = cp.get_accuracy()
-            result = accuracy
+            d = {
+                'description':'ClassifierPlace accuracy',
+                'accuracy': accuracy
+            }
+            result = d
             log.info(result)
 
         except:
@@ -91,7 +95,15 @@ class VRStats(Resource):
         result = ""
 
         try:
-            result = sstats.get_rating_stats()
+            stats = sstats.get_rating_stats()
+
+            d = {}
+            for line in stats.split('\n')[1:]:
+                measure,id,rating = line.split()
+                d[measure] = rating
+
+            result = {'rating_statistics':[d]}
+
             log.info(result)
 
         except:
@@ -112,7 +124,10 @@ class VRTopPlaces(Resource):
 
         try:
             if  top_nr > 0:
-                result = sstats.get_most_popular_places(top_nr)
+                stats = sstats.get_most_popular_places(top_nr)
+                result = stats
+
+
             elif top_nr < 0:
                 result = sstats.get_most_nonpopular_places(abs(top_nr))
             else:
@@ -126,9 +141,3 @@ class VRTopPlaces(Resource):
 
         return result
 
-"""
-@app.route('/')
-def index():
-    log.info('index loaded')
-    return 'Hello World!'
-"""

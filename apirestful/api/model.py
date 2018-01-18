@@ -5,13 +5,6 @@ from sqlalchemy import Column,Integer,Numeric,String,UniqueConstraint,Float,\
     ForeignKey,Sequence,Table,ForeignKeyConstraint
 
 
-"""
-config = configparser.ConfigParser()
-config.read("../config.ini")
-
-# postgres connection
-conn_string = config['postgres']['conn_string']
-"""
 
 Base = declarative_base()
 
@@ -19,7 +12,7 @@ Base = declarative_base()
 class Place(Base):
     __tablename__ = 'place'
 
-    place_id      = Column(Integer, primary_key=True)
+    place_id      = Column(String(20), primary_key=True)
     name            = Column(String(150),nullable=False,index=True)
     address         = Column(String(250))
     city            = Column(String(250))
