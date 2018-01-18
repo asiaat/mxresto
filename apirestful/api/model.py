@@ -5,11 +5,13 @@ from sqlalchemy import Column,Integer,Numeric,String,UniqueConstraint,Float,\
     ForeignKey,Sequence,Table,ForeignKeyConstraint
 
 
+"""
 config = configparser.ConfigParser()
 config.read("../config.ini")
 
 # postgres connection
 conn_string = config['postgres']['conn_string']
+"""
 
 Base = declarative_base()
 
@@ -70,11 +72,18 @@ class Parking(Base):
 
 
 def create_db():
+    config = configparser.ConfigParser()
+    config.read("../config.ini")
+
+    # postgres connection
+    conn_string = config['postgres']['conn_string']
 
     engine  = create_engine(conn_string)
 
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+
+
 
 
 
