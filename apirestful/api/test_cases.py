@@ -1,11 +1,11 @@
 import unittest
 
-
+import requests
+from  ClassifierPlace import ClassifierPlace
 from config import apiconf
-
 from sqlalchemy import create_engine
 
-from  ClassifierPlace import ClassifierPlace
+from status import *
 
 cnf = apiconf.config
 conn_string = cnf['postgres']['conn_string']
@@ -38,6 +38,22 @@ class TestClassifier(unittest.TestCase):
         pred_class = cp.predict(inp_features)
 
         self.assertIsNotNone(pred_class)
+
+
+
+class TestRestApi(unittest.TestCase):
+    """
+    NB!
+    To run these tests the service must be run  localhost at  port 5000
+    """
+
+    def test_get_wrong_api_query(self):
+        r = requests.get('http://localhost:5000/qwer/1')
+        assert r.status_code == HTTP_404_NOT_FOUND
+
+    def test_get_ok_status(self):
+        r = requests.get('http://localhost:5000/api/stats')
+        assert r.status_code == HTTP_200_OK
 
 
 if __name__ == '__main__':

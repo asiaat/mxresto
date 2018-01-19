@@ -1,6 +1,8 @@
 import unittest
-from apirestful import status
+
 import requests
+
+from apirestful.api import status
 
 
 class TestRestApi(unittest.TestCase):
