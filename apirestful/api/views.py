@@ -1,5 +1,5 @@
 
-import configparser
+from flask import request
 import logging as log
 
 from flask_restful import Resource
@@ -25,23 +25,7 @@ cp.train(0.33)
 
 
 
-class VRClassifPlaces(Resource):
 
-    def get(self, inp_features):
-
-        result = ""
-
-        try:
-            #res    = find_both_db_employee(id)
-            prediction = cp.predict([[0, 2, 0, 1, 1, 1]])
-            result = str(prediction)
-            log.info(result)
-
-        except:
-            msg = "Something is wrong"
-            log.warning(msg)
-
-        return result
 
 class VRClassifPlacesAccuracy(Resource):
 
@@ -65,7 +49,7 @@ class VRClassifPlacesAccuracy(Resource):
 
         return result
 
-
+todos = {}
 
 class VRStats(Resource):
 
@@ -184,3 +168,39 @@ class VRTop10Places(Resource):
         return result
 
 
+class VRClassifPlaces(Resource):
+
+    def put(self):
+
+        result = ""
+
+        try:
+
+            smoke          = request.form['smoke']
+            dress_code     = request.form['dress_code']
+            access         = request.form['access']
+            price          = request.form['price']
+            serv           = request.form['serv']
+            parking        = request.form['parking']
+
+
+            inp_features = {'parking': parking,
+                            'access': access,
+                            'smoke': smoke,
+                            'serv': serv,
+                            'price': price,
+                            'dress_code': dress_code
+                            }
+
+
+            pred_class = cp.predict(inp_features)
+
+            result = str(pred_class[0])
+
+            log.info(result)
+
+        except:
+            msg = "Something is wrong"
+            log.warning(msg)
+
+        return result

@@ -15,14 +15,14 @@ ap = Api(app)
 ap.add_resource(VRStats,                    '/api/stats')
 ap.add_resource(VRTopPlaces,                '/api/top_places/<string:inp_number>')
 ap.add_resource(VRTop10Places,              '/api/top_places')
-ap.add_resource(VRClassifPlaces,            '/api/classify/<string:inp_features>')
+ap.add_resource(VRClassifPlaces,            '/api/classify')
 ap.add_resource(VRClassifPlacesAccuracy,    '/api/classif_accuracy')
+
 
 if __name__ == '__main__':
 
 
     config = apiconf.config
-    #config.read("config.ini")
 
     log.basicConfig(filename=config['log']['file'], level=log.DEBUG)
 
