@@ -66,26 +66,6 @@ class VRClassifPlacesAccuracy(Resource):
         return result
 
 
-class VRPlace(Resource):
-    """
-    View Resource Place
-    """
-
-    def get(self, id):
-
-        result = ""
-
-        try:
-            #res    = find_both_db_employee(id)
-            result = "Put this place into test!"
-            log.info(result)
-
-        except:
-            msg = "Something is wrong"
-            log.warning(msg)
-
-        return result
-
 
 class VRStats(Resource):
 
@@ -120,18 +100,52 @@ class VRTopPlaces(Resource):
 
         result = ""
         top_nr  = int(inp_number)
-        print (top_nr)
+
 
         try:
             if  top_nr > 0:
                 stats = sstats.get_most_popular_places(top_nr)
-                result = stats
+
+                jmostp = []
+                for index, row in stats.iterrows():
+                    d = {
+                        'name': row['name'],
+                        'rating' : row['rating'],
+                        'city': row['city']
+                    }
+                    jmostp.append(d)
+
+                result = {'most_popular_places': jmostp, 'count': top_nr }
 
 
             elif top_nr < 0:
-                result = sstats.get_most_nonpopular_places(abs(top_nr))
+                stats = sstats.get_most_nonpopular_places(abs(top_nr))
+
+                jmostp = []
+                for index, row in stats.iterrows():
+                    d = {
+                        'name': row['name'],
+                        'rating': row['rating'],
+                        'city': row['city']
+                    }
+                    jmostp.append(d)
+
+                result = {'most_nonpopular_places': jmostp,'count': abs(top_nr)}
+
             else:
-                result = sstats.get_most_popular_places(10)
+                stats = sstats.get_most_popular_places(10)
+
+                jmostp = []
+                for index, row in stats.iterrows():
+                    d = {
+                        'name': row['name'],
+                        'rating': row['rating'],
+                        'city': row['city']
+                    }
+                    jmostp.append(d)
+
+
+                result = {'top10_places': jmostp,'count': abs(top_nr)}
 
             log.info(result)
 
@@ -140,4 +154,33 @@ class VRTopPlaces(Resource):
             log.warning(msg)
 
         return result
+
+
+class VRTop10Places(Resource):
+    def get(self):
+
+        result = ""
+
+        try:
+
+            stats = sstats.get_most_popular_places(10)
+
+            jmostp = []
+            for index, row in stats.iterrows():
+                d = {
+                    'name': row['name'],
+                    'rating': row['rating'],
+                    'city': row['city']
+                }
+                jmostp.append(d)
+
+            result = {'top10_places': jmostp, 'count': 10}
+            log.info(result)
+
+        except:
+            msg = "Something is wrong"
+            log.warning(msg)
+
+        return result
+
 

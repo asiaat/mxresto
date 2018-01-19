@@ -25,7 +25,7 @@ class SimpleStats():
                             order by m.rating desc limit %d """ % int(inp_count)
         df = pd.read_sql(str_query, self.engine)
 
-        return df.head(inp_count)
+        return df
 
     def get_most_nonpopular_places(self, inp_count):
         str_query = """select m.place_id,m.rating, p.name,p.city
