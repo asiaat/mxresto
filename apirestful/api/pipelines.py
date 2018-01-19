@@ -2,14 +2,13 @@ import luigi
 import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import configparser
 from model import Place, Ratings, MeanRatings
 
-config = configparser.ConfigParser()
-config.read("/home/malle/proj/py/mxresto/apirestful/config.ini")
+from config import apiconf
+
 
 # postgres connection
-conn_string = config['postgres']['conn_string']
+conn_string = apiconf.config['postgres']['conn_string']
 engine      = create_engine(conn_string)
 
 
@@ -17,11 +16,11 @@ engine      = create_engine(conn_string)
 class RawRating(luigi.Task):
 
     def output(self):
-        return luigi.LocalTarget('normal_rating_final.csv')
+        return luigi.LocalTarget('../../data/normal/normal_rating_final.csv')
 
     def run(self):
 
-        full_path = '/home/malle/proj/py/mxresto/data/rating_final.csv'
+        full_path = '../../data/rating_final.csv'
         df = pd.read_csv(full_path)
         normalized = df.drop_duplicates(['userID', 'placeID', 'rating'], keep='first')
 
@@ -43,7 +42,7 @@ class RatingDB(luigi.Task):
 
     def run(self):
         s = sessionmaker(bind=engine)()
-        inp_csv_ratings = "normal_rating_final.csv"
+        inp_csv_ratings = "../../data/normal/normal_rating_final.csv"
         dfRatings = pd.read_csv(inp_csv_ratings, sep=",")
 
         for index, row in dfRatings.iterrows():
@@ -64,8 +63,6 @@ class RatingDB(luigi.Task):
 
 class MeanRatingDB(luigi.Task):
 
-    #def requires(self):
-    #    return [RatingDB()]
 
     def output(self):
         # create a configured "Session" class
@@ -99,8 +96,6 @@ class MeanRatingDB(luigi.Task):
 
 class PlacesDB(luigi.Task):
 
-    #def requires(self):
-    #    return [RatingDB()]
 
     def output(self):
         # create a configured "Session" class
@@ -110,11 +105,11 @@ class PlacesDB(luigi.Task):
     def run(self):
         s = sessionmaker(bind=engine)()
 
-        inp_csv_ratings = "/home/malle/proj/py/mxresto/data/normal/places_classes.csv"
+        inp_csv_ratings = "../../data/normal/places_classes.csv"
         dfPlacesCL = pd.read_csv(inp_csv_ratings, sep=",")
 
         # get parking info
-        inp_csv_parking = "/home/malle/proj/py/mxresto/data/normal/chefmozparking.csv"
+        inp_csv_parking = "../../data/normal/chefmozparking.csv"
         dfParking = pd.read_csv(inp_csv_parking, sep=",")
         dfParking.drop_duplicates(keep='first')
 

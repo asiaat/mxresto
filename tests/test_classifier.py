@@ -1,10 +1,12 @@
 import unittest
+
+
 from apirestful.api.config import apiconf
 import logging as log
 
 from sqlalchemy import create_engine
 
-from  apirestful.api.ClassifierPlace import ClassifierPlace
+from  api.ClassifierPlace import ClassifierPlace
 
 cnf = apiconf.config
 conn_string = cnf['postgres']['conn_string']

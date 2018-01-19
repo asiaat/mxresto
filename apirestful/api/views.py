@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from .ClassifierPlace import ClassifierPlace
 from .SimpleStats import SimpleStats
 
-from apirestful.api.config import apiconf
+from api.config import apiconf
 
 config = apiconf.config
 

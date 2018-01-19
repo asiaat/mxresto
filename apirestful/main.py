@@ -1,11 +1,10 @@
 from flask import Flask
 from flask_restful import Api
 import logging as log
-import configparser
 
-from apirestful.api.config import apiconf
+from api.config.apiconf import config
 
-from apirestful.api.views import VRStats,VRTopPlaces,\
+from api.views import VRStats,VRTopPlaces,\
     VRClassifPlaces,VRClassifPlacesAccuracy,VRTop10Places
 
 
@@ -22,7 +21,6 @@ ap.add_resource(VRClassifPlacesAccuracy,    '/api/classif_accuracy')
 if __name__ == '__main__':
 
 
-    config = apiconf.config
 
     log.basicConfig(filename=config['log']['file'], level=log.DEBUG)
 

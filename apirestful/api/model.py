@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-import configparser
 from sqlalchemy import Column,Integer,Numeric,String,UniqueConstraint,Float,\
     ForeignKey,Sequence,Table,ForeignKeyConstraint
 
@@ -67,7 +66,7 @@ class Parking(Base):
 def create_db():
 
     # postgres connection
-    from apirestful.api.config import apiconf
+    from config import apiconf
 
     conn_string = apiconf.config['postgres']['conn_string']
 
