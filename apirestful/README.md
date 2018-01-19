@@ -1,7 +1,8 @@
 
 
 Installation
-------------------------------------
+=================================================================
+
 
 Clone on github
 git clone https://github.com/asiaat/mxresto.git
@@ -15,20 +16,20 @@ mxresto/bin$  	source activate
 (mxresto) pip install -r requirements.txt
 
 Configuration
-------------------------------------
+================================================================
 ../config/config.ini ile set postgres connection
 for example
 conn_string = postgres://postgres:postgres@localhost:5432/resto
 
 
 Database preparation
------------------------------------
+================================================================
 Create database
 (mxresto) python utils.py
 
 
 Pipelines
-------------------------------------
+================================================================
 
 After the database schema is created run the data pipes
 
@@ -43,14 +44,22 @@ python pipelines.py --local-scheduler PlacesDB
 
 
 Tests
--------------------------------------
-at the test folder
+================================================================
+run the testcases
+
+python test_cases.py
+
+..
+-----------------------------------------------
+Ran 2 tests in 0.097s
+
+OK
 
 
 
 
 REST API usage
--------------------------------------
+================================================================
 
 start the flask server
 (mxresto)python main.py
@@ -176,7 +185,7 @@ curl 'http://localhost:5000/api/classify' -d "smoke=none" -d "access=completely"
 
 
 TODO
--------------------------------------
+================================================================
 
 
 
