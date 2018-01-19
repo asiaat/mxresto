@@ -12,7 +12,7 @@ Base = declarative_base()
 class Place(Base):
     __tablename__ = 'place'
 
-    place_id      = Column(String(20), primary_key=True)
+    place_id        = Column(String(20), primary_key=True)
     name            = Column(String(150),nullable=False,index=True)
     address         = Column(String(250))
     city            = Column(String(250))
@@ -65,11 +65,11 @@ class Parking(Base):
 
 
 def create_db():
-    config = configparser.ConfigParser()
-    config.read("../config.ini")
 
     # postgres connection
-    conn_string = config['postgres']['conn_string']
+    from apirestful.api.config import apiconf
+
+    conn_string = apiconf.config['postgres']['conn_string']
 
     engine  = create_engine(conn_string)
 

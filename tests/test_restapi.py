@@ -1,5 +1,5 @@
 import unittest
-from src.restapi import status
+from apirestful import status
 import requests
 
 
@@ -14,9 +14,7 @@ class TestRestApi(unittest.TestCase):
         assert r.status_code == status.HTTP_404_NOT_FOUND
 
     def test_get_ok_status(self):
-        r = requests.get('http://localhost:5000/api/place/1')
+        r = requests.get('http://localhost:5000/api/stats')
         assert r.status_code == status.HTTP_200_OK
-
-    #def test_get_simple_stat_1(self):
 
 

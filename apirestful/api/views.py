@@ -1,6 +1,5 @@
 
 import configparser
-import json
 import logging as log
 
 from flask_restful import Resource
@@ -9,12 +8,13 @@ from sqlalchemy import create_engine
 from .ClassifierPlace import ClassifierPlace
 from .SimpleStats import SimpleStats
 
-config = configparser.ConfigParser()
-config.read("./config.ini")
+from apirestful.api.config import apiconf
+
+config = apiconf.config
 
 # postgres connection
 conn_string = config['postgres']['conn_string']
-engine  = create_engine(conn_string)
+engine      = create_engine(conn_string)
 
 sstats = SimpleStats(engine)
 cp     = ClassifierPlace(engine)

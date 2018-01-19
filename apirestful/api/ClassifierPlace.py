@@ -1,20 +1,10 @@
 import pandas as pd
 import numpy  as np
 
-import configparser
-from sqlalchemy import create_engine
-
 from sklearn.naive_bayes import GaussianNB
 from sklearn import preprocessing as prep
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-
-config = configparser.ConfigParser()
-config.read("/home/malle/proj/py/mxresto/apirestful/config.ini")
-
-# postgres connection
-conn_string = config['postgres']['conn_string']
-engine  = create_engine(conn_string)
 
 class ClassifierPlace():
 
@@ -42,7 +32,6 @@ class ClassifierPlace():
         leServ      = prep.LabelEncoder().fit(self.dfFeatures['other_services'].values)
         leParking   = prep.LabelEncoder().fit(self.dfFeatures['parking'].values)
 
-        #print(list(leDress.inverse_transform([0,1])))
 
         lstFeatures = self.dfFeatures.values
 
@@ -79,15 +68,4 @@ class ClassifierPlace():
         #print(list(self.leDress.classes_))
         return self.classifier.predict([[0, 2, 0, 1, 1, 1]])
 
-"""
-cp = ClassifierPlace(engine)
-cp.make_features()
-print(cp.features)
-cp.make_labels()
-print(cp.labels)
 
-cp.train(0.33)
-print(cp.get_accuracy())
-
-print(cp.predict("dfg"))
-"""
